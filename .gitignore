@@ -30,3 +30,27 @@
 *.exe
 *.out
 *.app
+
+# Latex files #
+###############
+*.aux
+*.out
+*.nav
+*.snm
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+
+# CMake files #
+###############
+cmake_install.cmake
+CMakeFiles
+CMakeCache.txt
+Makefile
+
+# Eclipse Project Files #
+#########################
+.cproject
+.project
+.settings

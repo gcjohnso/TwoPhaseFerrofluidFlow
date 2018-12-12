@@ -1,0 +1,21 @@
+\documentclass[10pt]{report}
+\usepackage{float}
+
+
+\begin{document}
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|r|c|c|c|c|c|c|} \hline
+
+\multicolumn{2}{|c|}{n cells} & 
+\multicolumn{3}{|c|}{@f$H^1@f$-error} & 
+\multicolumn{3}{|c|}{@f$L^2@f$-error}\\ \hline
+0 & 64 & 2.055e+00 & - & - & 3.279e-01 & - & -\\ \hline
+1 & 256 & 1.519e+00 & 1.35 & 0.44 & 5.215e-02 & 6.29 & 2.65\\ \hline
+2 & 1024 & 1.336e+00 & 1.14 & 0.18 & 4.197e-02 & 1.24 & 0.31\\ \hline
+3 & 4096 & 1.303e+00 & 1.03 & 0.04 & 4.044e-02 & 1.04 & 0.05\\ \hline
+4 & 16384 & 1.294e+00 & 1.01 & 0.01 & 4.011e-02 & 1.01 & 0.01\\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+\end{document}
