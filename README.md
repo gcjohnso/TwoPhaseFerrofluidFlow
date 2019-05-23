@@ -23,7 +23,7 @@ In order to run the Cahn-Hilliard or Navier-Stokes solvers, you must make an ins
 
 Additional examples from the deal.II tutorials can be found in the Examples folder along with a document describing each tutorial.
 
-Finally, a work in progress code for solving two phase fluid flows is also present in the repo. This is a combination of the Cahn-Hilliard and Navier-Stokes solver, however at the time of writing the code DOES NOT WORK. Once it becomes working, additional enteries into the wiki will be made on how to use the solver.
+Finally, a work in progress code for solving two phase fluid flows is also present in the repo. This is a combination of the Cahn-Hilliard and Navier-Stokes solver, however at the time of writing the code DOES NOT WORK. The current status is presented in section 3.4 of Final.pdf. Once it becomes working, additional enteries into the wiki will be made on how to use the solver.
 
 References:
 [1] R.H. Nochetto, A.J. Salgado, and I. Tomas, A diffuse interface model for two-phase derrofluid flows, Computer Methods in Applied Mechanics and Engineering, 309 (2016), pp. 497-531.
