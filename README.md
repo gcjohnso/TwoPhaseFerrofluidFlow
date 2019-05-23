@@ -1,7 +1,7 @@
 # TwoPhaseFerrofluidFlow
 A two phase ferrofluid flow solver. This code implements the numerical method described in the paper [1]. For a summarized description of the PDE model, numerical method, and implementation detaiils see Final.pdf in the root directory.
 
-This code is built using the deal.II library [2]. Additionally libraries required are Trilinos and MPI. For instructions on how to install the library see https://www.dealii.org/9.0.0/readme.html and for instructions on install Trilinos refer to https://www.dealii.org/9.0.0/external-libs/trilinos.html. All code is compiled using CMake and the process for using it as such. First navigate to the root folder of the component you wish to compile, for example the Navier-Stokes solver in the MainSource folder. Then type the following commands:
+This code is built using the deal.II library [2]. Additionally libraries required are Trilinos and MPI. For instructions on how to install the library see https://www.dealii.org/9.0.0/readme.html and for instructions to install Trilinos refer to https://www.dealii.org/9.0.0/external-libs/trilinos.html. All code is compiled using CMake and the process for using it as such. First navigate to the root folder of the component you wish to compile, for example the Navier-Stokes solver in the MainSource folder. Then type the following commands:
 
 cmake .
 
@@ -14,7 +14,6 @@ The code currently has the following functionality:
 1) A Cahn-Hilliard solver (located in MainSource)
 2) A Navier-Stokes solver (located in MainSource)
 3) Code which returns the value of the applied magnetic field given a set of dipoles at given locations in space (located in OldCurrentlyUnusedCode)
-4) A work in progress code for solving two phase fluid flows. This is a combination of the Cahn-Hilliard and Navier-Stokes solver, however at the time of writing the code DOES NOT WORK. Once it becomes working, additional enteries into the wiki will be made on how to use the solver.
 
 The functionality for solving the magnetization equation is next to be developed. After this is passing unit tests, all three solvers will be combined using a Picard-like iteration to solve the whole two-phase ferrofluid system.
 
@@ -23,6 +22,8 @@ The above three components have been unit tested to ensure correctness of the nu
 In order to run the Cahn-Hilliard or Navier-Stokes solvers, you must make an instantiation of the respective class objects and then call the run method. For detailed information on how to modify the solvers to work with your specific initial conditions, model parameters, boundary conditions, and forcing functions please refer to the respective wiki entries.
 
 Additional examples from the deal.II tutorials can be found in the Examples folder along with a document describing each tutorial.
+
+Finally, a work in progress code for solving two phase fluid flows is also present in the repo. This is a combination of the Cahn-Hilliard and Navier-Stokes solver, however at the time of writing the code DOES NOT WORK. Once it becomes working, additional enteries into the wiki will be made on how to use the solver.
 
 References:
 [1] R.H. Nochetto, A.J. Salgado, and I. Tomas, A diffuse interface model for two-phase derrofluid flows, Computer Methods in Applied Mechanics and Engineering, 309 (2016), pp. 497-531.
