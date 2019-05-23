@@ -1,0 +1,192 @@
+\documentclass[11pt,fullpage]{article}
+%\usepackage{multicol,wrapfig,amsmath,subfigure}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb}
+\usepackage{ mathrsfs }
+\usepackage{amsthm}
+\usepackage{graphics,graphicx}
+\usepackage{hyperref}
+\usepackage{ stmaryrd }
+\usepackage[right = 2.5cm, left=2.5cm, top = 2.5cm, bottom =2.5cm]{geometry}
+\pagestyle{plain}
+\def\urlfont{\DeclareFontFamily{OT1}{cmtt}{\hyphenchar\font='057}
+	\normalfont\ttfamily \hyphenpenalty=10000}
+
+\newcommand*{\plogo}{\fbox{$\mathcal{PL}$}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\innprod}[1]{\langle #1 \rangle}
+\newcommand{\Tau}{\mathcal{T}}
+\newcommand{\lap}{\Delta}
+\newcommand{\problem}[1]{\paragraph{Problem #1}}
+%\input macros
+\newcommand{\deriv}{\mbox{d}}
+\newcommand{\Real}{\mathbb R}
+\newcommand{\eps}{\epsilon}
+\newcommand{\Complex}{\mathbb C}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\subheading}[1]{\noindent \textbf{#1}}
+\newcommand{\grad}{\nabla}
+\newcommand{\diver}{\textup{div} }
+\newcommand{\jump}[1]{[#1]}
+\newcommand{\limit}[2]{\lim_{#1 \rightarrow #2}}
+\newcommand{\mollify}[1]{ \mathcal{J}_\epsilon #1 }
+\newcommand{\conv}[2]{#1 \ast #2}
+\newcommand{\D}{D}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Torus}{\mathbb{T}}
+\newcommand{\Integer}{\mathbb{Z}}
+\newcommand{\Naturals}{\mathbb{N}}
+\newcommand{\ineqtext}[1]{ ^{\text{\tiny #1}}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\intab}{\int_{a}^{b}}
+\newcommand{\intom}{\int_{\Omega}}
+\newcommand{\Ltwo}{{L^2}}
+\newcommand{\Ltwoom}{{L^2(\Omega)}}
+\newcommand{\Linf}{{L^\infty}}
+\newcommand{\Linfom}{{L^\infty(\Omega)}}
+\renewcommand{\i}{{i}}
+\newcommand{\ip}{{i+1}}
+\newcommand{\ipp}{{i+2}}
+\newcommand{\im}{{i-1}}
+\newcommand{\imm}{{i-2}}
+\renewcommand{\j}{{j}}
+\newcommand{\jp}{{j+1}}
+\newcommand{\jpp}{{j+2}}
+\newcommand{\jm}{{j-1}}
+\newcommand{\jmm}{{j-2}}
+\newcommand{\n}{{n}}
+\newcommand{\np}{{n+1}}
+\newcommand{\npp}{{n+2}}
+\newcommand{\nm}{{n-1}}
+\newcommand{\nmm}{{n-2}}
+
+%Nancy's macros
+\newcommand{\reg}[1]{#1^\epsilon}
+\newcommand{\Lpr}[1]{L^{#1}(\mathbb{R}^n)}
+\newcommand{\Lp}[1]{L^{#1}(\Omega)}
+\newcommand{\intreal}[1]{\int_{\mathbb{R}^{#1}}\hspace{-8pt}}
+\newcommand{\modenergy}{\mathcal{E}_H}
+\newcommand{\ball}{B_n}
+\newcommand{\balltime}{B_n\times [0,T]}
+
+\newtheorem{theorem}{Theorem}
+\theoremstyle{lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{question}{Question}
+%\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{rmk}{Remark}
+\newtheorem{example}{Example}
+\theoremstyle{lemma}
+\newtheorem{lemma}{Lemma}
+\allowdisplaybreaks
+
+\begin{document}
+	
+\begin{center}
+	\textbf{\Large{Scientific Computation of Two--Phase Ferrofluid Flows}}
+	\\
+	\textbf{\Large{AMSC 664 Proposal}} \\ 
+	\textbf{\large{Gareth Johnson}}\\
+	\textbf{\large{Faculty Adviser: Ricardo Nochetto}}
+	\\
+	\today
+\end{center}
+
+\section{Semester Plan}
+
+The main goal of this project remains unchanged from last semester. I intend to implement a two--phase ferrofluid flow solver using the algorithm presented in \cite{DiffuseInterface}, which is duplicated below as it will be referred throughout this proposal. 
+\begin{algorithm}
+	For given smooth initial data $\set{\Theta^0, \mathbf{M}^0,\mathbf{U}^0}$, compute $\set{\Theta^k, \Psi^k, \mathbf{M}^k, \Phi^k, \mathbf{U}^k, {P}^k}\in \mathbb{G}_h\times \mathbb{Y}_h\times \mathbb{M}_h\times\mathbb{X}_h\times\mathbb{U}_h\times\mathbb{P}_h$ for every $k\in\set{1,...,K}$ that solves
+	\begin{subequations}\label{NumScheme}
+		\begin{align}
+		\label{NumScheme:1}\bigg(\frac{\delta\Theta^k}{\tau}, \Lambda\bigg) - (\mathbf{U}^k\Theta^{k-1}, \grad\Lambda) - \gamma(\grad \Psi^k, \grad \Lambda)&=0,\\
+		\label{NumScheme:2}(\Psi^k, \Upsilon) + \eps(\grad \Theta^k, \grad \Upsilon) + \frac{1}{\eps}(f(\Theta^{k-1}), \Upsilon) + \frac{1}{\eta}(\delta\Theta^k, \Upsilon) &= 0,\\
+		\label{NumScheme:3}\bigg(\frac{\delta\mathbf{M}^k}{\tau}, \mathbf{Z}\bigg) - \mathcal{B}_h^m(\mathbf{U}^k, \mathbf{Z}, \mathbf{M}^k) + \frac{1}{\mathscr{T}}(\mathbf{M}^k, \mathbf{Z}) &= \frac{1}{\mathscr{T}}(\varkappa_\theta\mathbf{H}^k, \mathbf{Z}),\\
+		\label{NumScheme:4}(\grad\Phi^k, \grad X) &= (\mathbf{h}_a^k - \mathbf{M}^k, \grad X),\\
+		\begin{split}
+		\label{NumScheme:5}\bigg(\frac{\delta\mathbf{U}^k}{\tau}, \mathbf{V}\bigg) + \mathcal{B}_h(\mathbf{U}^{k-1}, \mathbf{U}^k, \mathbf{V}) + (\nu_\theta\mathbf{T(U}^k), \mathbf{T(V)}) - (P^k, \diver \mathbf{V}) &= \mu_0\mathcal{B}_h^m(\mathbf{V}, \mathbf{H}^k, \mathbf{M}^k)\\
+		&\phantom{{}={}}+\frac{\lambda}{\eps}(\Theta^{k-1}\grad \Psi^k, \mathbf{V}),
+		\end{split}\\
+		\label{NumScheme:6}(Q, \diver\mathbf{U}^k) &= 0,
+		\end{align}
+	\end{subequations}
+	for all $\set{\Lambda, \Upsilon, \mathbf{Z}, X, \mathbf{V}, Q}\in \mathbb{G}_h\times \mathbb{Y}_h\times \mathbb{M}_h\times\mathbb{X}_h\times\mathbb{U}_h\times\mathbb{P}_h$, where $\mathbf{H}^k=\grad \Phi^k$ and $\eta \leq \big(\max_\theta f'(\theta)\big)^{-1}$.
+\end{algorithm}
+The implementation will be written in C++ and will utilize the deal.II library \cite{AdaptiveMesh, DealII}. The code will be written to take advantage of deal.II's dimensionless programming design allowing the transition between 2d to 3d without having to rewrite large portions of the code base. However, due to computational resources available to the project we will only focus on the 2d case for our testing purposes. 
+
+As pointed out in last semesters final review, the project is behind the timeline that was given in the original project proposal. Last semester I developed functionality to generate the applied magnetizing field from a given set of magnetic dipoles and to generate the initial mesh. Both pieces of functionality were united tested, though admittedly not described in full detail, and thus will be included in the unit testing section below. In order to better track the progress of my project this semester I have broken the remaining work into the following four main tasks.
+\begin{itemize}
+	\item The first task will be to develop code to solve the Cahn--Hilliard system (\ref{NumScheme:1})--(\ref{NumScheme:2}). In addition to solving the system, this task will include functionality for adaptive mesh refinement/coarsening. This is because we are using the variable $\Theta$ in the definition of the Kelly error estimator \cite{ErrorInd}
+	\begin{equation}\label{ErrorInd}
+	\eta_T^2 = h_T\int_{\partial T}\abs{\bigg\llbracket\frac{\partial \Theta}{\partial \eta}\bigg\rrbracket}^2dS \quad \forall T\in\Tau_h.
+	\end{equation}
+	Specifically, this error estimator will be used to determine which elements will be coarsened or refined. deal.II provides functionality to coarsen a percentage of elements with the smallest error and refine a percentage of elements with the largest error. After marking elements for refinement/coarsening another deal.II method will be used to transfer the solution from the current mesh to the new refined/coarsened mesh. Note, that while each of the six variables will be transfered from the current mesh to the coarsened/refined mesh, the decision of which elements to coarsen/refine is solely based on the variable $\Theta$.
+	
+	\item The second task will be to develop code to solve the Navier--Stokes system (\ref{NumScheme:5})--(\ref{NumScheme:6}).
+	
+	\item The third task will be to develop code to solve the magnetization system (\ref{NumScheme:3})--(\ref{NumScheme:4}). 
+	
+	\item The final task will to solve the overall scheme using a Picard--like iteration.
+\end{itemize}
+I believe that getting the above four tasks finished in this semester will be a challenge, as each of the three solvers are drastically different in addition to getting them all to work together. Thus my plan is to progress through the semester focusing on one task at a time until is complete and passing the unit test.
+
+
+\section{Code Units}
+The above tasks can be summarized into the following set of code units:
+\begin{itemize}
+	\item The Cahn--Hilliard solver will be a single class with the following methods:
+	\begin{itemize}
+		\item A constructor which is responsible for reading in the initial condition.
+		\item A subroutine for setting up the system. This will be comprised of distributing the degrees of freedom and computing the matrices resulting from the FEM formulation.
+		\item A subroutine which will solve the system at the current timestep. This system will be solved using GMRES preconditioned with algebraic multigrid.
+		\item A subroutine to coarsed/refine the mesh. Using the procedure described elements will be marked for coarsening/refinement. The coarsened/refined mesh will then be available to the other classes to that they can transfer their variables onto the new mesh.
+	\end{itemize}
+	
+	\item The Navier--Stokes solver will be a single class with the following methods:
+	\begin{itemize}
+		\item A constructor which is responsible for reading in the initial condition.
+		\item A subroutine for setting up the system. This will be comprised of distributing the degrees of freedom and computing the matrices resulting from the FEM formulation.
+		\item A subroutine which will solve the system at the current timestep. As the system is a non--symmetric saddle point problem, GMRES with a block preconditioner for the saddle point system will be used. Specifically, I plan on exploring preconditioners presented in Elman's book \cite{Precond}.
+		\item A subroutine to transfer the solution from the current mesh to the new refined/coarsened mesh.
+	\end{itemize}
+	
+	\item The magnetization solver will be a single class with the following methods:
+	\begin{itemize}
+		\item A constructor which is responsible for reading in the initial condition.
+		\item A subroutine for setting up the system. This will be comprised of distributing the degrees of freedom and computing the matrices resulting from the FEM formulation.
+		\item A subroutine which will solve the system at the current timestep. The system will be solved using both BiCGstab and CG preconditioned with algebraic multigrid.
+		\item A subroutine to transfer the solution from the current mesh to the new refined/coarsened mesh.
+	\end{itemize}
+	
+	\item The Picard--like iteration will be a subroutine which solves the entire system at a single timestep. It will repeatedly solve the above three subsystems, lagging the velocity variable, until the velocity has reached a fixed--point. 
+\end{itemize}
+
+\section{Unit Testing}
+The input mesh generation was unit tested by visually inspecting the generated mesh. This is verifiable as the code takes in 2 numbers which describe how many elements to have in the vertical and horizontal direction. The generation of the applied magnetizing field was unit tested by inputting a known set of magnetic dipoles and computing the applied magnetizing field at a few points on a mesh. This was compared to the analytically computed value and output a message only if the error was larger than $1E-6$.
+
+The first three tasks will be unit tested using the technique of generated solutions. Specifically, for each system a forcing function will be added to make the system hold for a predetermined analytic solution. Then I will compute and export the $L^2$ and $L^\infty$ errors to ensure that each solution is converging to a threshold of $1E-6$. In order to actually run the test a modified version of the above classes will be created. The modification is required in order to add in the forcing term in the subroutine responsible for setting up each system. Finally, note that I am not planning to individually test the "sub items" that are listed above as these subroutines are primarily comprised of methods from the deal.II library. Thus the technique of generated solutions will test whether or not have used those methods correctly in order to solve the system. Below are descriptions of the analytical solutions that will be used for each system
+\begin{itemize}
+	\item Cahn--Hilliard equation: The analytical solution for the phase variable will consist of the following three portions. The left half of the mesh will have the phase being -1, the right half of the mesh will have the phase being 1, and the center region of length $\eps=.001$ will have the profile $\tanh(\frac{x}{\sqrt{2\eps}})$.
+	
+	\item Navier--Stokes equation: The analytical solution for the velocity will be a radial constant flow. The flow will have speed 0 at the center of the mesh and the flow speed will increase linearly as you move out from the center of the mesh.
+	
+	\item Magnetization equation: The analytical solution for the magnetization will be a linear transport in the positive vertical direction with a speed of $v=.5$.
+\end{itemize}
+
+The final task will be unit tested by comparison to visual results presented in \cite{DiffuseInterface}. In the paper, three experiments were run which reproduced the Rosenzweig instability with a uniform magnetic field, and the so called "ferrofluid hedgehog" for a non-uniform magnetic field both with and without the inclusion of the de-magnetizing field. By running the full code with the three different configurations given in the paper, I will be able to visually compare my results with the results given in the paper.
+
+	
+\bibliographystyle{siam}
+\bibliography{Proposal}
+\end{document}
