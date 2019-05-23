@@ -357,7 +357,7 @@ which is the convergence criteria for the steady Navier--Stokes equations presen
 
 
 \section{Validation Methods}
-All unit tests described below are in the testing folder in the git repository. These are slightly modified versions of the classes in the main source directory, with the modifications allowing for the automated tests to be ran. The Cahn--Hilliard and Navier--Stokes unit tests are executed from the test class called by UnitTesting.cpp. Below are descriptions of the unit tests as well as descriptions of the output showing that the unit tests are passing.
+All unit tests described below are present in the git repository. These are slightly modified versions of the classes in the main source directory, with the modifications allowing for the automated tests to be ran. The Cahn--Hilliard and Navier--Stokes unit tests are executed from a test class called UnitTesting.cpp. Below are descriptions of the unit tests as well as descriptions of the output showing that the unit tests are passing.
 
 \subsection{Cahn--Hilliard Unit Tests}
 The Cahn--Hilliard solver was verified with three unit tests. All three cases test the solver in "isolation" with $\mathbf{U} = 0$. The first unit test evaluates if the solver can resolve the interface of a stationary flat profile using adaptive refinement. This equates to specifying a flat profile as the initial condition and not having a forcing function. We expect that the mesh will be heavily refined around the interface and that the solution will stay stationary in time. The domain was taken to be $[0,0.6]\times [0,1]$ with 10 elements in the $x$--direction and 6 elements in the $y$--direction, which is the domain and initial mesh configuration specified in \cite{DiffuseInterface}. The initial condition for the flat profile was taken to be
@@ -402,7 +402,7 @@ and the model parameters, domain, and refinement parameters remain the same as t
 		\\Time step 1000
 	\end{minipage}
 \end{figure}
-Again, we can see that the initial mesh is heavily refined around the interface of the initial condition. However, there are intrinsic difficulties about trying to approximate a circle using a rectangular grid, which leads to the interface having rough edges in certain regions. Additionally, the error of the solution does not grow in time even though the coloring of the second plot does slightly change.
+Again, we can see that the initial mesh is heavily refined around the interface of the initial condition. However, there are intrinsic difficulties about trying to approximate a circle using a rectangular grid, which leads to the interface having rough edges in certain regions. Additionally, the error of the solution does not grow in time even though the coloring of the second plot does slightly change. As such, I believe this is an artifact of the visualization software or the procedure for outputting the solution.
 
 The final unit test verifies the solver by computing the error using a forced solution. This is achieved by choosing an analytic solution, computing and applying the appropriate forcing function to the system, and then solving the problem on a sequence of globally refined meshes. The domain was $[-1,1]^2$ and the analytic solution was chosen to be
 $$
@@ -446,16 +446,16 @@ as it is divergence free and obeys the no--slip boundary conditions. The model p
 		5 & 1024 & 2.189e-02 &  1.95 & 1.064e-03 & 0.24\\ \hline
 	\end{tabular}
 \end{figure}
-From the below figure, we can see that the $L^2$ error converges and that the $H^1$--seminorm has a convergence rate of order 2 which is the norm that is directly controlled by the finite element method.
+From the above figure, we can see that the $L^2$ error converges and that the $H^1$--seminorm has a convergence rate of order 2 which is the norm that is directly controlled by the finite element method.
 
-In order to fix the convergence issues discussed in the final presentation, we found a simple bug in the way we were computing the forcing function. We simply were missing a factor of $0.5$ on the vector laplacian which is a consequence of that fact that for a divergence free velocity we have that
+In order to fix the convergence issues discussed in the final presentation, we found a simple bug in the way we had implemented the forcing function. We simply forgot to include a factor of $0.5$ on the vector laplacian which is a consequence of that fact that for a divergence free velocity we have that
 $$
 	\diver(T(\mathbf{U})) = .5 \lap \mathbf{U}.
 $$
 Once this factor was added, the code started converging.
 
 \subsection{Applied Magnetic Field Unit Test}
-Last semester, a function was implemented which determines the value of the applied magnetic field at a point on the mesh given a set of magnetic dipoles with corresponding intensity values. This code is unit tested by choosing a known set of dipole locations and intensity values and then computing the analytic value of the magnetic field at various coordinates. We when compare the numerically computed values against the analytic values, with an error tolerance of $1e-6$ being required for the test to be considered passing.
+Last semester, a function was implemented which determines the value of the applied magnetic field at a point on the mesh given a set of magnetic dipoles with corresponding intensity values. This code is unit tested by choosing a known set of dipole locations and intensity values and then computing the analytic value of the magnetic field at various coordinates. We when compare the numerically computed values against the analytic values, with an error tolerance of $1e-5$ being required for the test to be considered passing.
 
 The first configuration is a single dipole located at $(-1,-1)$ pointing in the direction $(0,1)$ with an intensity that increases linearly from $0$ at $t=0$ to $60$ at $t=3.5$. The applied magnetic field for this configuration was tested at the points $(1,1)$ and $(2,1)$ at times $t=0,1,5$. Below is the output from the test:
 \begin{verbatim}
@@ -504,7 +504,7 @@ Below is the list deliverables that will be present in the git repository locate
 	
 	\item The Navier--Stokes solver (titled NavierStokesEquation) and the associated testing version.
 	
-	\item The code to generate the applied magnetic field (titled AppliedMagnetizingField) and the unit tests. These are located in the OldCurrentlyUnusedCode folder.
+	\item The code to generate the applied magnetic field (titled AppliedMagnetizingField) and the unit tests. These are located in the OldCurrentlyUnusedCode folder, as it is currently not being used by either of the solvers.
 	
 	\item A list of software requirements, instructions on running the software, instructions on how to modify the solvers to run with different initial conditions and forcing functions, and a description of the structure, organization, and parameters of each solver will be given in markdown formatted text on the github repository.
 \end{itemize}
