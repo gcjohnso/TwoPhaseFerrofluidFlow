@@ -353,7 +353,7 @@ Implementation wise, the solver was created by combining the above two solvers w
 $$
 	\norm{f - (F\mathbf{U} + B^T p)}_{l^2} \leq 10^{-5}\norm{f}_{l^2},
 $$
-which is the convergence criteria for the steady Navier--Stokes equations presented in \cite{Precond}. Due to the flow of the two fluid no longer being driven by a magnetic field, we drive the flow of the fluid by using a forcing function based on a forced solution for the velocity and pressure. However, when using this particular forcing the Picard iterate is currently not converging. More time will need to be spent in order to diagnose what is causing the Picard iteration to not converge. Due to this, the code will be present in the git repository but I do not consider it a deliverable due to the fact that it will need a good amount of work to get it into a functional state. It will be located in a folder marked NotWorking.
+which is the convergence criteria for the steady Navier--Stokes equations presented in \cite{Elman2}. Due to the flow of the two fluid no longer being driven by a magnetic field, we drive the flow of the fluid by using a forcing function based on a forced solution for the velocity and pressure. However, when using this particular forcing the Picard iterate is currently not converging. More time will need to be spent in order to diagnose what is causing the Picard iteration to not converge. Due to this, the code will be present in the git repository but I do not consider it a deliverable due to the fact that it will need a good amount of work to get it into a functional state. It will be located in a folder marked NotWorking.
 
 
 \section{Validation Methods}
