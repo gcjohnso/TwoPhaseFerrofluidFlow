@@ -16,9 +16,11 @@ The code currently has the following functionality:
 3) Code which returns the value of the applied magnetic field given a set of dipoles at given locations in space (located in OldCurrentlyUnusedCode)
 4) A work in progress code for solving two phase fluid flows. This is a combination of the Cahn-Hilliard and Navier-Stokes solver, however at the time of writing the code DOES NOT WORK. Once it becomes working, additional enteries into the wiki will be made on how to use the solver.
 
+The functionality for solving the magnetization equation is next to be developed. After this is passing unit tests, all three solvers will be combined using a Picard-like iteration to solve the whole two-phase ferrofluid system.
+
 The above three components have been unit tested to ensure correctness of the numerical implementation. The Cahn-Hilliard and Navier-Stokes unit tests are located in the testing folder, while the applied magnetic field unit tests are currently implemented inside the source file. For additional information on the unit tests please refer to Section 4 of Final.pdf in the root directory.
 
-In order to run the Cahn-Hilliard or Navier-Stokes solvers, you must make an instantiation of the respective class objects and then call the run method. For detailed information on how to modify the solvers to work with your specific initial conditions and forcing function, please refer to the respective wiki entries.
+In order to run the Cahn-Hilliard or Navier-Stokes solvers, you must make an instantiation of the respective class objects and then call the run method. For detailed information on how to modify the solvers to work with your specific initial conditions, model parameters, boundary conditions, and forcing functions please refer to the respective wiki entries.
 
 Additional examples from the deal.II tutorials can be found in the Examples folder along with a document describing each tutorial.
 
