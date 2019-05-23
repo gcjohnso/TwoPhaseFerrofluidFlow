@@ -14,6 +14,7 @@ The code currently has the following functionality:
 1) A Cahn-Hilliard solver (located in MainSource)
 2) A Navier-Stokes solver (located in MainSource)
 3) Code which returns the value of the applied magnetic field given a set of dipoles at given locations in space (located in OldCurrentlyUnusedCode)
+4) A work in progress code for solving two phase fluid flows. This is a combination of the Cahn-Hilliard and Navier-Stokes solver, however at the time of writing the code DOES NOT WORK. Once it becomes working, additional enteries into the wiki will be made on how to use the solver.
 
 The above three components have been unit tested to ensure correctness of the numerical implementation. The Cahn-Hilliard and Navier-Stokes unit tests are located in the testing folder, while the applied magnetic field unit tests are currently implemented inside the source file. For additional information on the unit tests please refer to Section 4 of Final.pdf in the root directory.
 
